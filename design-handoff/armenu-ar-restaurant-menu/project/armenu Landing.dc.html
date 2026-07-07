@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#FAF6EF;color:#221A12;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+input::placeholder{color:#B3A48E}
+::selection{background:#E8962E;color:#221A12}
+@keyframes steam{0%{opacity:0;transform:translateY(10px)}35%{opacity:.65}100%{opacity:0;transform:translateY(-30px)}}
+@keyframes wave{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
+@keyframes dotp{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes hintline{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}html{scroll-behavior:auto}}
+</style>
+</helmet>
+
+<sc-if value="{{ showGrain }}" hint-placeholder-val="{{ true }}">
+<div style="position:fixed;inset:0;z-index:2000;pointer-events:none;opacity:0.035;mix-blend-mode:multiply;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E&quot;)"></div>
+</sc-if>
+
+<!-- ============ NAV ============ -->
+<nav data-screen-label="Nav" style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(250,246,239,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(34,26,18,0.07)">
+  <div style="max-width:1200px;margin:0 auto;padding:0 28px;height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <a href="#hero" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:23px;letter-spacing:-0.5px;color:#221A12;text-decoration:none"><span style="color:#E8962E">ar</span>menu<span style="color:#8A7A66;font-weight:400;font-size:15px">.az</span></a>
+    <div style="display:flex;align-items:center;gap:30px" id="nav-links">
+      <a href="#mehsul" style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;color:#221A12;text-decoration:none" style-hover="color:#E8962E">Məhsul</a>
+      <a href="#nece" style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;color:#221A12;text-decoration:none" style-hover="color:#E8962E">Necə işləyir</a>
+      <a href="#ai" style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;color:#221A12;text-decoration:none" style-hover="color:#E8962E">AI Ofisiant</a>
+      <a href="#analitika" style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;color:#221A12;text-decoration:none" style-hover="color:#E8962E">Analitika</a>
+    </div>
+    <a href="#cta" class="magnet" style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:#221A12;text-decoration:none;background:#E8962E;padding:11px 22px;border-radius:999px;display:inline-block;box-shadow:0 6px 18px rgba(232,150,46,0.35);transition:box-shadow .3s" style-hover="box-shadow:0 10px 26px rgba(232,150,46,0.5)">Demo istə</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<div id="hero" data-screen-label="Hero" style="height:200vh;position:relative">
+  <div id="hero-pin" style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:90px 24px 0">
+    <div id="hero-badge" style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(232,150,46,0.5);color:#221A12;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:8px 16px;border-radius:999px;margin-bottom:26px;background:rgba(255,253,248,0.7)"><span style="width:7px;height:7px;border-radius:50%;background:#E8962E;display:inline-block"></span>Azərbaycanda ilk</div>
+    <h1 id="hero-head" style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(34px,6vw,84px);line-height:1.06;text-align:center;margin:0 0 20px;max-width:14ch;letter-spacing:-1px">Yemək artıq masanızdadır.</h1>
+    <p id="hero-sub" style="font-size:clamp(16px,1.4vw,19px);line-height:1.65;color:#8A7A66;text-align:center;max-width:560px;margin:0 0 12px">Azərbaycanda ilk AR Menyu — qonaq yeməyi sifarişdən əvvəl 3D formada, real ölçüdə görür.</p>
+    <div style="position:relative;width:min(500px,72vw);margin-top:6px">
+      <div id="hero-glow" style="position:absolute;left:50%;top:55%;width:130%;aspect-ratio:1.4;transform:translate(-50%,-50%);background:radial-gradient(ellipse at center, rgba(196,80,27,0.28) 0%, rgba(232,150,46,0.14) 42%, rgba(250,246,239,0) 72%);filter:blur(10px);opacity:0.8;pointer-events:none"></div>
+      <div id="hero-dish" style="position:relative">
+        <svg viewBox="0 0 460 360" style="width:100%;height:auto;display:block">
+          <path d="M195 168 q12 -20 0 -42 q-12 -20 2 -40" stroke="#E5C9A0" stroke-width="5" stroke-linecap="round" fill="none" style="animation:steam 3.8s ease-in-out infinite"></path>
+          <path d="M232 160 q14 -22 0 -46 q-12 -20 4 -38" stroke="#E5C9A0" stroke-width="5" stroke-linecap="round" fill="none" style="animation:steam 3.8s ease-in-out 1.2s infinite"></path>
+          <path d="M268 170 q10 -18 0 -38 q-10 -18 2 -36" stroke="#E5C9A0" stroke-width="4" stroke-linecap="round" fill="none" style="animation:steam 3.8s ease-in-out 2.2s infinite"></path>
+          <ellipse cx="230" cy="308" rx="172" ry="24" fill="#E2D2B6" opacity="0.55"></ellipse>
+          <ellipse cx="230" cy="272" rx="185" ry="56" fill="#FFFDF8" stroke="#EBDFC9" stroke-width="2"></ellipse>
+          <ellipse cx="230" cy="266" rx="146" ry="42" fill="#F4EBD9"></ellipse>
+          <ellipse cx="230" cy="252" rx="118" ry="36" fill="#D8964B"></ellipse>
+          <circle cx="180" cy="240" r="20" fill="#9C5230"></circle>
+          <circle cx="250" cy="232" r="18" fill="#8B4728"></circle>
+          <circle cx="285" cy="250" r="15" fill="#A65A33"></circle>
+          <circle cx="207" cy="258" r="15" fill="#8B4728"></circle>
+          <circle cx="155" cy="256" r="13" fill="#E9BB63"></circle>
+          <circle cx="266" cy="264" r="12" fill="#E9BB63"></circle>
+          <circle cx="231" cy="224" r="11" fill="#EFC876"></circle>
+          <rect x="212" y="244" width="34" height="9" rx="4.5" fill="#B54A2A" transform="rotate(-18 229 248)"></rect>
+          <rect x="252" y="252" width="28" height="8" rx="4" fill="#B54A2A" transform="rotate(12 266 256)"></rect>
+          <path d="M172 228 q30 -18 60 0" stroke="#F3E3C0" fill="none" stroke-width="4" stroke-linecap="round"></path>
+          <circle cx="168" cy="222" r="3.5" fill="#6F8F4F"></circle><circle cx="243" cy="216" r="3.5" fill="#6F8F4F"></circle><circle cx="292" cy="238" r="3" fill="#6F8F4F"></circle><circle cx="196" cy="244" r="3" fill="#6F8F4F"></circle><circle cx="262" cy="240" r="3" fill="#6F8F4F"></circle>
+        </svg>
+      </div>
+      <span class="hbr" data-bx="-1" data-by="-1" style="position:absolute;left:-14px;top:6px;width:38px;height:38px;border-left:3px solid #E8962E;border-top:3px solid #E8962E;border-radius:3px 0 0 0"></span>
+      <span class="hbr" data-bx="1" data-by="-1" style="position:absolute;right:-14px;top:6px;width:38px;height:38px;border-right:3px solid #E8962E;border-top:3px solid #E8962E;border-radius:0 3px 0 0"></span>
+      <span class="hbr" data-bx="-1" data-by="1" style="position:absolute;left:-14px;bottom:-6px;width:38px;height:38px;border-left:3px solid #E8962E;border-bottom:3px solid #E8962E;border-radius:0 0 0 3px"></span>
+      <span class="hbr" data-bx="1" data-by="1" style="position:absolute;right:-14px;bottom:-6px;width:38px;height:38px;border-right:3px solid #E8962E;border-bottom:3px solid #E8962E;border-radius:0 0 3px 0"></span>
+    </div>
+    <div id="hero-hint" style="position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px">
+      <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#8A7A66">Kəşf et</span>
+      <span style="width:2px;height:34px;background:#E8962E;display:block;animation:hintline 1.8s ease-in-out infinite"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ INGREDIENT REVEAL ============ -->
+<div id="mehsul" data-screen-label="Tərkib" style="height:400vh;position:relative">
+  <div id="ing-pin" style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center">
+    <div id="ing-grid" style="max-width:1240px;margin:0 auto;padding:80px 32px 32px;display:grid;grid-template-columns:0.85fr 1.15fr;gap:48px;align-items:center;width:100%;box-sizing:border-box">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:18px">
+          <span style="width:11px;height:11px;border-left:2px solid #E8962E;border-top:2px solid #E8962E;display:inline-block"></span>
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#E8962E">Animasiyalı tərkib</span>
+          <span style="width:11px;height:11px;border-right:2px solid #E8962E;border-bottom:2px solid #E8962E;display:inline-block"></span>
+        </div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,3.4vw,50px);line-height:1.12;margin:0 0 18px;letter-spacing:-0.5px">Qonaq nə yediyini dəqiq görür.</h2>
+        <p style="font-size:17px;line-height:1.7;color:#8A7A66;margin:0 0 30px;max-width:44ch">Hər yeməyin tərkibi animasiya ilə açılır — allergiyası, dietası olan qonaq üçün tam şəffaflıq.</p>
+        <div id="ing-cal" style="opacity:0">
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:14px">
+            <span id="cal-num" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:52px;letter-spacing:-1px">0</span>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:18px;color:#8A7A66">kkal · porsiya</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:500;padding:8px 16px;border-radius:999px;background:#FFFDF8;border:1px solid #EBDFC9;color:#221A12">Vegan variantı</span>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:500;padding:8px 16px;border-radius:999px;background:#FFFDF8;border:1px solid #EBDFC9;color:#221A12">Halal</span>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:500;padding:8px 16px;border-radius:999px;background:#FFFDF8;border:1px solid #EBDFC9;color:#221A12">Allergen məlumatı</span>
+          </div>
+        </div>
+      </div>
+      <div id="ing-stage" style="position:relative;width:min(600px,44vw);aspect-ratio:1;margin:0 auto">
+        <div style="position:absolute;left:50%;top:55%;width:110%;aspect-ratio:1.3;transform:translate(-50%,-50%);background:radial-gradient(ellipse at center, rgba(196,80,27,0.18) 0%, rgba(250,246,239,0) 68%);filter:blur(8px);pointer-events:none"></div>
+        <svg id="ing-lines" viewBox="0 0 600 600" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+          <line class="ing-line" x1="240" y1="290" x2="152" y2="168" stroke="#E8962E" stroke-width="1.5" opacity="0"></line>
+          <line class="ing-line" x1="360" y1="285" x2="448" y2="150" stroke="#E8962E" stroke-width="1.5" opacity="0"></line>
+          <line class="ing-line" x1="248" y1="360" x2="150" y2="452" stroke="#E8962E" stroke-width="1.5" opacity="0"></line>
+          <line class="ing-line" x1="356" y1="362" x2="452" y2="452" stroke="#E8962E" stroke-width="1.5" opacity="0"></line>
+          <line class="ing-line" x1="300" y1="262" x2="300" y2="118" stroke="#E8962E" stroke-width="1.5" opacity="0"></line>
+        </svg>
+        <div id="ing-dish" style="position:absolute;left:50%;top:54%;width:62%;transform:translate(-50%,-50%)">
+          <svg viewBox="0 0 460 340" style="width:100%;height:auto;display:block">
+            <ellipse cx="230" cy="288" rx="172" ry="24" fill="#E2D2B6" opacity="0.55"></ellipse>
+            <ellipse cx="230" cy="252" rx="185" ry="56" fill="#FFFDF8" stroke="#EBDFC9" stroke-width="2"></ellipse>
+            <ellipse cx="230" cy="246" rx="146" ry="42" fill="#F4EBD9"></ellipse>
+            <ellipse cx="230" cy="232" rx="118" ry="36" fill="#D8964B"></ellipse>
+            <circle cx="180" cy="220" r="20" fill="#9C5230"></circle>
+            <circle cx="250" cy="212" r="18" fill="#8B4728"></circle>
+            <circle cx="285" cy="230" r="15" fill="#A65A33"></circle>
+            <circle cx="155" cy="236" r="13" fill="#E9BB63"></circle>
+            <circle cx="266" cy="244" r="12" fill="#E9BB63"></circle>
+            <rect x="212" y="224" width="34" height="9" rx="4.5" fill="#B54A2A" transform="rotate(-18 229 228)"></rect>
+            <circle cx="168" cy="202" r="3.5" fill="#6F8F4F"></circle><circle cx="243" cy="196" r="3.5" fill="#6F8F4F"></circle><circle cx="292" cy="218" r="3" fill="#6F8F4F"></circle>
+          </svg>
+        </div>
+        <div id="ing-float" style="position:absolute;inset:0">
+          <div class="ing" style="position:absolute;left:1%;top:20%;opacity:0;display:flex;align-items:center;gap:9px;background:#FFFDF8;border:1px solid #EBDFC9;border-radius:999px;padding:8px 15px 8px 9px;box-shadow:0 8px 22px rgba(138,106,60,0.14)">
+            <svg viewBox="0 0 24 24" style="width:24px;height:24px"><circle cx="12" cy="12" r="9" fill="#9C5230"></circle><circle cx="9.5" cy="10" r="2.6" fill="#B96A42"></circle></svg>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600">Quzu əti</span>
+          </div>
+          <div class="ing" style="position:absolute;right:2%;top:17%;opacity:0;display:flex;align-items:center;gap:9px;background:#FFFDF8;border:1px solid #EBDFC9;border-radius:999px;padding:8px 15px 8px 9px;box-shadow:0 8px 22px rgba(138,106,60,0.14)">
+            <svg viewBox="0 0 24 24" style="width:24px;height:24px"><ellipse cx="12" cy="12" rx="9" ry="7.5" fill="#E9BB63"></ellipse><circle cx="9" cy="10" r="1.4" fill="#D8A24A"></circle><circle cx="15" cy="13" r="1.4" fill="#D8A24A"></circle></svg>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600">Kartof</span>
+          </div>
+          <div class="ing" style="position:absolute;left:1%;top:71%;opacity:0;display:flex;align-items:center;gap:9px;background:#FFFDF8;border:1px solid #EBDFC9;border-radius:999px;padding:8px 15px 8px 9px;box-shadow:0 8px 22px rgba(138,106,60,0.14)">
+            <svg viewBox="0 0 24 24" style="width:24px;height:24px"><ellipse cx="12" cy="13.5" rx="7" ry="8" fill="#5B3A6E"></ellipse><ellipse cx="12" cy="5.5" rx="3.4" ry="2.2" fill="#6F8F4F"></ellipse></svg>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600">Badımcan</span>
+          </div>
+          <div class="ing" style="position:absolute;right:1%;top:71%;opacity:0;display:flex;align-items:center;gap:9px;background:#FFFDF8;border:1px solid #EBDFC9;border-radius:999px;padding:8px 15px 8px 9px;box-shadow:0 8px 22px rgba(138,106,60,0.14)">
+            <svg viewBox="0 0 24 24" style="width:24px;height:24px"><rect x="4" y="9" width="16" height="7" rx="3.5" fill="#B54A2A" transform="rotate(-14 12 12.5)"></rect><rect x="16" y="6" width="3" height="4" rx="1.5" fill="#6F8F4F" transform="rotate(-14 17.5 8)"></rect></svg>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600">Bibər</span>
+          </div>
+          <div class="ing" style="position:absolute;left:50%;top:9%;transform:translateX(-50%);opacity:0;display:flex;align-items:center;gap:9px;background:#FFFDF8;border:1px solid #EBDFC9;border-radius:999px;padding:8px 15px 8px 9px;box-shadow:0 8px 22px rgba(138,106,60,0.14)">
+            <svg viewBox="0 0 24 24" style="width:24px;height:24px"><circle cx="8" cy="14" r="4" fill="#6F8F4F"></circle><circle cx="14" cy="10" r="4.5" fill="#7EA05B"></circle><circle cx="16" cy="16" r="3" fill="#6F8F4F"></circle></svg>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600">Göyərti</span>
+          </div>
+        </div>
+        <div id="ing-static" style="display:none;position:absolute;left:0;right:0;bottom:-8px;flex-wrap:wrap;gap:8px;justify-content:center"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HOW IT WORKS ============ -->
+<div id="nece" data-screen-label="Necə işləyir" style="height:300vh;position:relative;background:#F1E8D8">
+  <div id="how-pin" style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center">
+    <div style="max-width:1240px;margin:0 auto 26px;padding:80px 32px 0;width:100%;box-sizing:border-box">
+      <div style="display:inline-flex;align-items:center;gap:10px">
+        <span style="width:11px;height:11px;border-left:2px solid #E8962E;border-top:2px solid #E8962E;display:inline-block"></span>
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#E8962E">Necə işləyir</span>
+        <span style="width:11px;height:11px;border-right:2px solid #E8962E;border-bottom:2px solid #E8962E;display:inline-block"></span>
+      </div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(28px,3vw,44px);line-height:1.12;margin:14px 0 0;letter-spacing:-0.5px">Üç addım. Otuz saniyə.</h2>
+    </div>
+    <div id="how-track" style="display:flex;gap:44px;padding:0 8vw;width:max-content;will-change:transform">
+      <div class="how-card brk" style="position:relative;width:min(520px,80vw);background:#FFFDF8;border:1px solid #EBDFC9;border-radius:26px;padding:44px 40px 40px;box-shadow:0 18px 44px rgba(138,106,60,0.12);flex-shrink:0">
+        <span class="how-num" style="position:absolute;right:18px;top:-56px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:150px;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(232,150,46,0.45);pointer-events:none;will-change:transform">01</span>
+        <div style="width:56px;height:56px;border-radius:16px;background:#FAF6EF;border:1px solid #EBDFC9;display:grid;place-items:center;margin-bottom:22px">
+          <span style="display:inline-grid;grid-template-columns:repeat(3,7px);gap:3px"><span style="width:7px;height:7px;background:#221A12"></span><span style="width:7px;height:7px;background:#E8962E"></span><span style="width:7px;height:7px;background:#221A12"></span><span style="width:7px;height:7px;background:#221A12"></span><span style="width:7px;height:7px;background:#221A12"></span><span style="width:7px;height:7px;background:#E8962E"></span><span style="width:7px;height:7px;background:#E8962E"></span><span style="width:7px;height:7px;background:#221A12"></span><span style="width:7px;height:7px;background:#221A12"></span></span>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:28px;margin:0 0 10px">QR skan</h3>
+        <p style="font-size:16px;line-height:1.65;color:#8A7A66;margin:0">Masadakı QR kodu skan edir.</p>
+        <span class="bk" data-bx="-1" data-by="-1" style="position:absolute;left:10px;top:10px;width:16px;height:16px;border-left:2px solid #D9CBB2;border-top:2px solid #D9CBB2;transition:transform .35s,border-color .35s"></span>
+        <span class="bk" data-bx="1" data-by="-1" style="position:absolute;right:10px;top:10px;width:16px;height:16px;border-right:2px solid #D9CBB2;border-top:2px solid #D9CBB2;transition:transform .35s,border-color .35s"></span>
+        <span class="bk" data-bx="-1" data-by="1" style="position:absolute;left:10px;bottom:10px;width:16px;height:16px;border-left:2px solid #D9CBB2;border-bottom:2px solid #D9CBB2;transition:transform .35s,border-color .35s"></span>
+        <span class="bk" data-bx="1" data-by="1" style="position:absolute;right:10px;bottom:10px;width:16px;height:16px;border-right:2px solid #D9CBB2;border-bottom:2px solid #D9CBB2;transition:transform .35s,border-color .35s"></span>
+      </div>
+      <div class="how-card brk" style="position:relative;width:min(520px,80vw);background:#FFFDF8;border:1px solid #EBDFC9;border-radius:26px;padding:44px 40px 40px;box-shadow:0 18px 44px rgba(138,106,60,0.12);flex-shrink:0">
+        <span class="how-num" style="position:absolute;right:18px;top:-56px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:150px;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(232,150,46,0.45);pointer-events:none;will-change:transform">02</span>
+        <div style="width:56px;height:56px;border-radius:16px;background:#FAF6EF;border:1px solid #EBDFC9;display:grid;place-items:center;margin-bottom:22px;position:relative">
+          <span style="position:absolute;left:12px;top:12px;width:9px;height:9px;border-left:2px solid #E8962E;border-top:2px solid #E8962E"></span>
+          <span style="position:absolute;right:12px;bottom:12px;width:9px;height:9px;border-right:2px solid #E8962E;border-bottom:2px solid #E8962E"></span>
+          <span style="width:16px;height:16px;border-radius:50%;background:#221A12"></span>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:28px;margin:0 0 10px">3D + AR masada</h3>
+        <p style="font-size:16px;line-height:1.65;color:#8A7A66;margin:0">Yemək telefonda canlanır — real ölçüdə.</p>
+        <span class="bk" data-bx="-1" data-by="-1" style="position:absolute;left:10px;top:10px;width:16px;height:16px;border-left:2px solid #D9CBB2;border-top:2px solid #D9CBB2;transition:transform .35s,border-color .35s"></span>
+        <span class="bk" data-bx="1" data-by="-1" style="position:absolute;right:10px;top:10px;width:16px;height:16px;border-right:2px solid #D9CBB2;border-top:2px solid #D9CBB2;transition:transform .35s,border-color .35s"></span>
+        <span class="bk" data-bx="-1" data-by="1" style="position:absolute;left:10px;bottom:10px;width:16px;height:16px;border-left:2px solid #D9CBB2;border-bottom:2px solid #D9CBB2;transition:transform .35s,border-color .35s"></span>
+        <span class="bk" data-bx="1" data-by="1" style="position:absolute;right:10px;bottom:10px;width:16px;height:16px;border-right:2px solid #D9CBB2;border-bottom:2px solid #D9CBB2;transition:transform .35s,border-color .35s"></span>
+      </div>
+      <div class="how-card brk" style="position:relative;width:min(520px,80vw);background:#FFFDF8;border:1px solid #EBDFC9;border-radius:26px;padding:44px 40px 40px;box-shadow:0 18px 44px rgba(138,106,60,0.12);flex-shrink:0">
+        <span class="how-num" style="position:absolute;right:18px;top:-56px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:150px;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(232,150,46,0.45);pointer-events:none;will-change:transform">03</span>
+        <div style="width:56px;height:56px;border-radius:16px;background:#FAF6EF;border:1px solid #EBDFC9;display:grid;place-items:center;margin-bottom:22px">
+          <svg viewBox="0 0 24 24" style="width:26px;height:26px"><ellipse cx="12" cy="15" rx="9" ry="4" fill="none" stroke="#221A12" stroke-width="1.8"></ellipse><path d="M7 11 l3.4 3.4 L17.5 7.5" stroke="#E8962E" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:28px;margin:0 0 10px">İnamlı sifariş</h3>
+        <p style="font-size:16px;line-height:1.65;color:#8A7A66;margin:0">Gözlənti = reallıq. Orta çek artır.</p>
+        <span class="bk" data-bx="-1" data-by="-1" style="position:absolute;left:10px;top:10px;width:16px;height:16px;border-left:2px solid #D9CBB2;border-top:2px solid #D9CBB2;transition:transform .35s,border-color .35s"></span>
+        <span class="bk" data-bx="1" data-by="-1" style="position:absolute;right:10px;top:10px;width:16px;height:16px;border-right:2px solid #D9CBB2;border-top:2px solid #D9CBB2;transition:transform .35s,border-color .35s"></span>
+        <span class="bk" data-bx="-1" data-by="1" style="position:absolute;left:10px;bottom:10px;width:16px;height:16px;border-left:2px solid #D9CBB2;border-bottom:2px solid #D9CBB2;transition:transform .35s,border-color .35s"></span>
+        <span class="bk" data-bx="1" data-by="1" style="position:absolute;right:10px;bottom:10px;width:16px;height:16px;border-right:2px solid #D9CBB2;border-bottom:2px solid #D9CBB2;transition:transform .35s,border-color .35s"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ AR PREVIEW ============ -->
+<div id="ar" data-screen-label="AR önizləmə" style="height:250vh;position:relative">
+  <div id="ar-pin" style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center">
+    <div id="ar-grid" style="max-width:1140px;margin:0 auto;padding:80px 32px 32px;display:grid;grid-template-columns:1fr auto;gap:64px;align-items:center;width:100%;box-sizing:border-box">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:18px">
+          <span style="width:11px;height:11px;border-left:2px solid #E8962E;border-top:2px solid #E8962E;display:inline-block"></span>
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#E8962E">AR önizləmə</span>
+          <span style="width:11px;height:11px;border-right:2px solid #E8962E;border-bottom:2px solid #E8962E;display:inline-block"></span>
+        </div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,3.4vw,50px);line-height:1.12;margin:0 0 18px;letter-spacing:-0.5px">Menyu telefonda canlanır.</h2>
+        <p style="font-size:17px;line-height:1.7;color:#8A7A66;margin:0;max-width:42ch">Heç bir tətbiq yüklənmir. Skan et, gör, sifariş ver.</p>
+      </div>
+      <div style="position:relative;width:min(310px,78vw);margin:0 auto">
+        <div style="background:#2A2019;border-radius:46px;padding:12px;box-shadow:0 30px 70px rgba(90,64,30,0.28)">
+          <div style="position:relative;background:#F1E8D8;border-radius:36px;overflow:hidden;aspect-ratio:0.49">
+            <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:86px;height:22px;background:#2A2019;border-radius:12px;z-index:5"></div>
+            <div id="ar-scene" style="position:absolute;inset:0;opacity:0">
+              <div style="position:absolute;left:0;right:0;top:0;height:58%;background:linear-gradient(180deg,#EFE4CE 0%,#E7D9BE 100%)"></div>
+              <div style="position:absolute;left:-10%;right:-10%;bottom:0;height:46%;background:linear-gradient(180deg,#C99A66 0%,#B98A5A 60%,#A97C4E 100%);border-radius:50% 50% 0 0 / 22% 22% 0 0"></div>
+              <div style="position:absolute;left:12%;right:12%;bottom:8%;height:30%;background:radial-gradient(ellipse at 50% 30%,rgba(196,80,27,0.22) 0%,rgba(196,80,27,0) 70%)"></div>
+            </div>
+            <div id="ar-dish" style="position:absolute;left:50%;bottom:20%;width:64%;transform:translateX(-50%) translateY(-120px) scale(0.5);opacity:0">
+              <svg viewBox="0 0 460 340" style="width:100%;height:auto;display:block;filter:drop-shadow(0 14px 18px rgba(90,50,20,0.3))">
+                <ellipse cx="230" cy="272" rx="185" ry="56" fill="#FFFDF8" stroke="#EBDFC9" stroke-width="2"></ellipse>
+                <ellipse cx="230" cy="266" rx="146" ry="42" fill="#F4EBD9"></ellipse>
+                <ellipse cx="230" cy="252" rx="118" ry="36" fill="#D8964B"></ellipse>
+                <circle cx="180" cy="240" r="20" fill="#9C5230"></circle>
+                <circle cx="250" cy="232" r="18" fill="#8B4728"></circle>
+                <circle cx="285" cy="250" r="15" fill="#A65A33"></circle>
+                <circle cx="155" cy="256" r="13" fill="#E9BB63"></circle>
+                <rect x="212" y="244" width="34" height="9" rx="4.5" fill="#B54A2A" transform="rotate(-18 229 248)"></rect>
+                <circle cx="168" cy="222" r="3.5" fill="#6F8F4F"></circle><circle cx="243" cy="216" r="3.5" fill="#6F8F4F"></circle>
+              </svg>
+            </div>
+            <span class="abr" style="position:absolute;left:12%;top:30%;width:26px;height:26px;border-left:3px solid #E8962E;border-top:3px solid #E8962E;opacity:0"></span>
+            <span class="abr" style="position:absolute;right:12%;top:30%;width:26px;height:26px;border-right:3px solid #E8962E;border-top:3px solid #E8962E;opacity:0"></span>
+            <span class="abr" style="position:absolute;left:12%;bottom:24%;width:26px;height:26px;border-left:3px solid #E8962E;border-bottom:3px solid #E8962E;opacity:0"></span>
+            <span class="abr" style="position:absolute;right:12%;bottom:24%;width:26px;height:26px;border-right:3px solid #E8962E;border-bottom:3px solid #E8962E;opacity:0"></span>
+            <div id="ar-chip" style="position:absolute;left:50%;bottom:6%;transform:translateX(-50%) translateY(24px);opacity:0;background:rgba(255,253,248,0.94);border:1px solid #EBDFC9;border-radius:999px;padding:10px 18px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;white-space:nowrap;box-shadow:0 10px 26px rgba(138,106,60,0.2)">Sac içi · 24 ₼ · <span style="color:#E8962E">360° baxış</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ AI OFISIANT ============ -->
+<section id="ai" data-screen-label="AI Ofisiant" style="padding:130px 32px;background:#FAF6EF">
+  <div style="max-width:1140px;margin:0 auto;display:flex;flex-wrap:wrap;gap:64px;align-items:center">
+    <div data-rv style="flex:1 1 420px;min-width:300px">
+      <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:18px">
+        <span style="width:11px;height:11px;border-left:2px solid #E8962E;border-top:2px solid #E8962E;display:inline-block"></span>
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#E8962E">AI Ofisiant</span>
+        <span style="width:11px;height:11px;border-right:2px solid #E8962E;border-bottom:2px solid #E8962E;display:inline-block"></span>
+      </div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,3.4vw,50px);line-height:1.12;margin:0 0 26px;letter-spacing:-0.5px">Heç vaxt yorulmayan ofisiant.</h2>
+      <div style="display:flex;flex-direction:column;gap:16px;max-width:46ch">
+        <div style="display:flex;align-items:flex-start;gap:14px"><span style="width:10px;height:10px;border-left:2px solid #E8962E;border-bottom:2px solid #E8962E;transform:rotate(-45deg);margin-top:7px;flex-shrink:0"></span><p style="margin:0;font-size:17px;line-height:1.6;color:#221A12">Canlı səsli söhbət — Azərbaycan dilində</p></div>
+        <div style="display:flex;align-items:flex-start;gap:14px"><span style="width:10px;height:10px;border-left:2px solid #E8962E;border-bottom:2px solid #E8962E;transform:rotate(-45deg);margin-top:7px;flex-shrink:0"></span><p style="margin:0;font-size:17px;line-height:1.6;color:#221A12">Büdcəyə, dietaya, əhvala uyğun tövsiyə</p></div>
+        <div style="display:flex;align-items:flex-start;gap:14px"><span style="width:10px;height:10px;border-left:2px solid #E8962E;border-bottom:2px solid #E8962E;transform:rotate(-45deg);margin-top:7px;flex-shrink:0"></span><p style="margin:0;font-size:17px;line-height:1.6;color:#221A12">Hər söhbətdə nəzakətli əlavə satış</p></div>
+      </div>
+      <div style="display:inline-flex;align-items:center;gap:12px;margin-top:30px;background:#FFFDF8;border:1px solid #EBDFC9;border-radius:999px;padding:11px 20px;box-shadow:0 8px 22px rgba(138,106,60,0.1)">
+        <span style="display:inline-flex;align-items:center;gap:3px;height:20px">
+          <span style="width:3px;height:20px;background:#E8962E;border-radius:2px;animation:wave 1.1s ease-in-out infinite;display:inline-block"></span>
+          <span style="width:3px;height:20px;background:#E8962E;border-radius:2px;animation:wave 1.1s ease-in-out 0.15s infinite;display:inline-block"></span>
+          <span style="width:3px;height:20px;background:#E8962E;border-radius:2px;animation:wave 1.1s ease-in-out 0.3s infinite;display:inline-block"></span>
+          <span style="width:3px;height:20px;background:#E8962E;border-radius:2px;animation:wave 1.1s ease-in-out 0.45s infinite;display:inline-block"></span>
+          <span style="width:3px;height:20px;background:#E8962E;border-radius:2px;animation:wave 1.1s ease-in-out 0.6s infinite;display:inline-block"></span>
+        </span>
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:#221A12">Səsli rejim aktivdir</span>
+      </div>
+    </div>
+    <div data-rv style="flex:0 1 360px;min-width:300px;margin:0 auto">
+      <div style="background:#2A2019;border-radius:46px;padding:12px;box-shadow:0 30px 70px rgba(90,64,30,0.28)">
+        <div id="ai-chat" style="background:#FFFDF8;border-radius:36px;padding:56px 18px 24px;display:flex;flex-direction:column;gap:12px;min-height:480px;position:relative">
+          <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:86px;height:22px;background:#2A2019;border-radius:12px"></div>
+          <div style="position:absolute;top:44px;left:0;right:0;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:#8A7A66"><span style="color:#E8962E">ar</span>menu · AI Ofisiant</div>
+          <div style="height:26px"></div>
+          <div class="msg" style="align-self:flex-end;max-width:82%;background:#F1E8D8;border-radius:18px 18px 4px 18px;padding:12px 16px;font-size:14.5px;line-height:1.55;opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s">120 manata 4 nəfərlik süfrə qur, biri vegandır.</div>
+          <div class="msg" style="align-self:flex-start;max-width:86%;background:#FAF6EF;border:1px solid #EBDFC9;border-radius:18px 18px 18px 4px;padding:12px 16px;font-size:14.5px;line-height:1.55;opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s">Təklifim: 2 × Sac içi, 1 × Vegan dolma, mövsüm salatı və qutab seti. Cəmi: <strong>112 ₼</strong>. İçki əlavə edək?</div>
+          <div class="msg" style="align-self:flex-end;max-width:82%;background:#F1E8D8;border-radius:18px 18px 4px 18px;padding:12px 16px;font-size:14.5px;line-height:1.55;opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s">Bəli.</div>
+          <div class="msg" style="align-self:flex-start;max-width:86%;background:#FAF6EF;border:1px solid #EBDFC9;border-radius:18px 18px 18px 4px;padding:12px 16px;font-size:14.5px;line-height:1.55;opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s">Ev limonadı məsləhətdir. Yekun: <strong style="color:#E8962E">120 ₼</strong>. Nuş olsun!</div>
+          <div id="ai-typing" style="align-self:flex-start;background:#FAF6EF;border:1px solid #EBDFC9;border-radius:18px;padding:12px 16px;display:none;gap:5px;align-items:center">
+            <span style="width:7px;height:7px;border-radius:50%;background:#8A7A66;animation:dotp 1s infinite;display:inline-block"></span>
+            <span style="width:7px;height:7px;border-radius:50%;background:#8A7A66;animation:dotp 1s 0.2s infinite;display:inline-block"></span>
+            <span style="width:7px;height:7px;border-radius:50%;background:#8A7A66;animation:dotp 1s 0.4s infinite;display:inline-block"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ANALITIKA ============ -->
+<section id="analitika" data-screen-label="Analitika" style="padding:130px 32px;background:#F1E8D8">
+  <div style="max-width:1140px;margin:0 auto;display:flex;flex-wrap:wrap;gap:64px;align-items:center">
+    <div data-rv id="dash-wrap" style="flex:1 1 460px;min-width:300px">
+      <div id="dash" style="background:#FFFDF8;border:1px solid #EBDFC9;border-radius:26px;padding:36px;box-shadow:0 18px 44px rgba(138,106,60,0.14)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;gap:12px;flex-wrap:wrap">
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px">Yemək baxışları</span>
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#8A7A66;border:1px solid #EBDFC9;border-radius:999px;padding:6px 13px">Nümunə göstəricilər</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="display:grid;grid-template-columns:118px 1fr 58px;align-items:center;gap:14px">
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600">Sac içi</span>
+            <span style="height:12px;background:#F1E8D8;border-radius:999px;overflow:hidden;display:block"><span class="bar-f" data-w="92" style="display:block;height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,#E8962E,#D9822A);transition:width 1.3s cubic-bezier(.2,.7,.2,1)"></span></span>
+            <span class="bar-v" data-v="1284" style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;text-align:right">0</span>
+          </div>
+          <div style="display:grid;grid-template-columns:118px 1fr 58px;align-items:center;gap:14px">
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600">Qutab seti</span>
+            <span style="height:12px;background:#F1E8D8;border-radius:999px;overflow:hidden;display:block"><span class="bar-f" data-w="71" style="display:block;height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,#E8962E,#D9822A);transition:width 1.3s cubic-bezier(.2,.7,.2,1) .12s"></span></span>
+            <span class="bar-v" data-v="946" style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;text-align:right">0</span>
+          </div>
+          <div style="display:grid;grid-template-columns:118px 1fr 58px;align-items:center;gap:14px">
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600">Toyuq ləvəngi</span>
+            <span style="height:12px;background:#F1E8D8;border-radius:999px;overflow:hidden;display:block"><span class="bar-f" data-w="55" style="display:block;height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,#E8962E,#D9822A);transition:width 1.3s cubic-bezier(.2,.7,.2,1) .24s"></span></span>
+            <span class="bar-v" data-v="731" style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;text-align:right">0</span>
+          </div>
+          <div style="display:grid;grid-template-columns:118px 1fr 58px;align-items:center;gap:14px">
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600">Düşbərə</span>
+            <span style="height:12px;background:#F1E8D8;border-radius:999px;overflow:hidden;display:block"><span class="bar-f" data-w="39" style="display:block;height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,#E8962E,#D9822A);transition:width 1.3s cubic-bezier(.2,.7,.2,1) .36s"></span></span>
+            <span class="bar-v" data-v="512" style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;text-align:right">0</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:22px;margin-top:30px;padding-top:24px;border-top:1px solid #F1E8D8;flex-wrap:wrap">
+          <div><div style="font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#8A7A66;margin-bottom:4px">Qonaq dilləri</div><div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px">AZ · EN · RU</div></div>
+          <div><div style="font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#8A7A66;margin-bottom:4px">Pik saatlar</div><div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px">19:00 – 22:00</div></div>
+        </div>
+      </div>
+    </div>
+    <div data-rv style="flex:1 1 380px;min-width:300px">
+      <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:18px">
+        <span style="width:11px;height:11px;border-left:2px solid #E8962E;border-top:2px solid #E8962E;display:inline-block"></span>
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#E8962E">Analitika</span>
+        <span style="width:11px;height:11px;border-right:2px solid #E8962E;border-bottom:2px solid #E8962E;display:inline-block"></span>
+      </div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(30px,3.4vw,50px);line-height:1.12;margin:0 0 18px;letter-spacing:-0.5px">Menyunuz sizə hesabat verəcək.</h2>
+      <p style="font-size:17px;line-height:1.7;color:#8A7A66;margin:0;max-width:46ch">Hansı yeməyə baxılır, hansı ötürülür, qonaqlar hansı dildə oxuyur — qərarları hisslə yox, data ilə verin.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MANIFESTO ============ -->
+<div id="man" data-screen-label="Manifest" style="height:250vh;position:relative">
+  <div id="man-pin" style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden">
+    <p id="man-text" style="font-family:'Unbounded',sans-serif;font-weight:600;font-size:clamp(26px,4.2vw,60px);line-height:1.35;text-align:center;max-width:20ch;margin:0;padding:0 24px;letter-spacing:-0.5px"></p>
+  </div>
+</div>
+
+<!-- ============ CTA + FOOTER ============ -->
+<section id="cta" data-screen-label="Demo CTA" style="padding:140px 32px 0;background:#FAF6EF">
+  <div style="max-width:760px;margin:0 auto;text-align:center">
+    <h2 data-rv style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(30px,4.4vw,58px);line-height:1.15;margin:0 0 18px;letter-spacing:-0.5px">Restoranını gələcəyə daşı.</h2>
+    <p data-rv style="font-size:18px;line-height:1.65;color:#8A7A66;margin:0 0 46px">Demo pulsuzdur — öz menyunuzdan bir yemək 3D-də.</p>
+    <form data-rv onSubmit="{{ onSubmit }}" style="background:#FFFDF8;border:1px solid #EBDFC9;border-radius:26px;padding:38px;box-shadow:0 18px 44px rgba(138,106,60,0.12);display:flex;flex-direction:column;gap:16px;text-align:left">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px">
+        <input type="text" name="ad" placeholder="Ad" required style="font-family:Inter,sans-serif;font-size:16px;color:#221A12;background:#FAF6EF;border:1px solid #EBDFC9;border-radius:14px;padding:15px 18px;outline:none;width:100%;box-sizing:border-box;transition:border-color .3s" style-focus="border-color:#E8962E">
+        <input type="text" name="restoran" placeholder="Restoran adı" required style="font-family:Inter,sans-serif;font-size:16px;color:#221A12;background:#FAF6EF;border:1px solid #EBDFC9;border-radius:14px;padding:15px 18px;outline:none;width:100%;box-sizing:border-box;transition:border-color .3s" style-focus="border-color:#E8962E">
+        <input type="tel" name="telefon" placeholder="Telefon" required style="font-family:Inter,sans-serif;font-size:16px;color:#221A12;background:#FAF6EF;border:1px solid #EBDFC9;border-radius:14px;padding:15px 18px;outline:none;width:100%;box-sizing:border-box;transition:border-color .3s" style-focus="border-color:#E8962E">
+      </div>
+      <div class="brk magnet" style="position:relative;margin-top:8px">
+        <button type="submit" style="width:100%;font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:#221A12;background:#E8962E;border:none;border-radius:16px;padding:19px 28px;cursor:pointer;box-shadow:0 12px 32px rgba(232,150,46,0.4);transition:box-shadow .3s" style-hover="box-shadow:0 18px 44px rgba(232,150,46,0.55)">15 dəqiqəlik demo istə</button>
+        <span class="bk" data-bx="-1" data-by="-1" style="position:absolute;left:-8px;top:-8px;width:18px;height:18px;border-left:3px solid #E8962E;border-top:3px solid #E8962E;opacity:0;transition:transform .35s,opacity .35s"></span>
+        <span class="bk" data-bx="1" data-by="-1" style="position:absolute;right:-8px;top:-8px;width:18px;height:18px;border-right:3px solid #E8962E;border-top:3px solid #E8962E;opacity:0;transition:transform .35s,opacity .35s"></span>
+        <span class="bk" data-bx="-1" data-by="1" style="position:absolute;left:-8px;bottom:-8px;width:18px;height:18px;border-left:3px solid #E8962E;border-bottom:3px solid #E8962E;opacity:0;transition:transform .35s,opacity .35s"></span>
+        <span class="bk" data-bx="1" data-by="1" style="position:absolute;right:-8px;bottom:-8px;width:18px;height:18px;border-right:3px solid #E8962E;border-bottom:3px solid #E8962E;opacity:0;transition:transform .35s,opacity .35s"></span>
+      </div>
+      <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+        <p style="margin:4px 0 0;text-align:center;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;color:#E8962E">Sorğunuz qəbul olundu — tezliklə əlaqə saxlayacağıq.</p>
+      </sc-if>
+    </form>
+  </div>
+  <footer style="max-width:1140px;margin:110px auto 0;padding:34px 0 40px;border-top:1px solid rgba(34,26,18,0.09);display:flex;flex-wrap:wrap;gap:18px 34px;align-items:center;justify-content:space-between">
+    <div style="display:flex;flex-wrap:wrap;gap:10px 26px;font-family:'Space Grotesk',sans-serif;font-size:14px;color:#8A7A66">
+      <span>+994 XX XXX XX XX</span><span>info@mrtechnology.az</span><span>@mrtechnology.az</span>
+    </div>
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;color:#8A7A66">MR Technology · Bakı · © 2026</div>
+  </footer>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showGrain&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Görünüş&quot;},&quot;glowIntensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.8,&quot;min&quot;:0,&quot;max&quot;:1,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Görünüş&quot;},&quot;forceReducedMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hərəkət&quot;}}">
+class Component extends DCLogic {
+  state = { sent: false };
+
+  renderVals() {
+    return {
+      showGrain: this.props.showGrain ?? true,
+      sent: this.state.sent,
+      onSubmit: (e) => { e.preventDefault(); this.setState({ sent: true }); }
+    };
+  }
+
+  componentDidMount() {
+    this._dead = false;
+    this._cleanup = [];
+    const boot = () => {
+      if (this._dead) return;
+      if (!document.getElementById('hero-pin') || !document.getElementById('man-text')) { requestAnimationFrame(boot); return; }
+      try { this.setup(); } catch (err) { console.error('setup failed', err); }
+    };
+    requestAnimationFrame(boot);
+  }
+
+  componentWillUnmount() {
+    this._dead = true;
+    if (this._raf) cancelAnimationFrame(this._raf);
+    (this._cleanup || []).forEach(f => { try { f(); } catch (e) {} });
+  }
+
+  componentDidUpdate() { if (this._applyMode) this._applyMode(); }
+
+  setup() {
+    const $ = id => document.getElementById(id);
+    const qa = (s, r) => Array.from((r || document).querySelectorAll(s));
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    const on = (el, ev, fn, opt) => { el.addEventListener(ev, fn, opt); this._cleanup.push(() => el.removeEventListener(ev, fn, opt)); };
+
+    const mqM = matchMedia('(max-width: 900px)');
+    const mqR = matchMedia('(prefers-reduced-motion: reduce)');
+    const fb = () => mqM.matches || mqR.matches || (this.props.forceReducedMotion ?? false);
+    const glowI = () => clamp(this.props.glowIntensity ?? 0.8, 0, 1);
+
+    // ---- elements
+    const heroWrap = $('hero'), heroPin = $('hero-pin'), heroHead = $('hero-head'),
+      heroSub = $('hero-sub'), heroBadge = $('hero-badge'), heroDish = $('hero-dish'),
+      heroGlow = $('hero-glow'), heroHint = $('hero-hint'), hbrs = qa('.hbr');
+    const ingWrap = $('mehsul'), ingPin = $('ing-pin'), ingGrid = $('ing-grid'),
+      ingStage = $('ing-stage'), ingDish = $('ing-dish'), ingFloat = $('ing-float'),
+      ingLines = $('ing-lines'), ings = qa('.ing'), lines = qa('.ing-line'),
+      calWrap = $('ing-cal'), calNum = $('cal-num'), ingStatic = $('ing-static');
+    const howWrap = $('nece'), howPin = $('how-pin'), howTrack = $('how-track'), howNums = qa('.how-num');
+    const arWrap = $('ar'), arPin = $('ar-pin'), arGrid = $('ar-grid'), arScene = $('ar-scene'),
+      arDish = $('ar-dish'), arChip = $('ar-chip'), abrs = qa('.abr');
+    const manWrap = $('man'), manPin = $('man-pin'), manText = $('man-text');
+
+    // ---- manifesto words
+    const sentence = 'Bunu Azərbaycanda ilk dəfə biz etdik. Sıradakı restoran sizinki ola bilər.';
+    const hl = ['ilk', 'dəfə'];
+    manText.textContent = '';
+    sentence.split(' ').forEach((w, i) => {
+      const s = document.createElement('span');
+      s.className = 'man-w';
+      s.textContent = w;
+      s.style.opacity = '0.12';
+      if (hl.includes(w)) s.style.color = '#E8962E';
+      manText.appendChild(s);
+      if (i < sentence.split(' ').length - 1) manText.appendChild(document.createTextNode(' '));
+    });
+    const words = qa('.man-w');
+
+    // ---- ingredient geometry (dx/dy from final pos back to dish center)
+    let ingVecs = [];
+    const measureIng = () => {
+      const sr = ingStage.getBoundingClientRect();
+      const cx = sr.left + sr.width / 2, cy = sr.top + sr.height * 0.52;
+      ingVecs = ings.map(el => {
+        const r = el.getBoundingClientRect();
+        // remove current transform influence: use offsetLeft/offsetParent instead
+        const px = el.offsetLeft + el.offsetWidth / 2 + sr.left;
+        const py = el.offsetTop + el.offsetHeight / 2 + sr.top;
+        return { dx: cx - px, dy: cy - py };
+      });
+      lines.forEach(l => {
+        const len = Math.hypot(l.x2.baseVal.value - l.x1.baseVal.value, l.y2.baseVal.value - l.y1.baseVal.value);
+        l.style.strokeDasharray = String(len);
+        l.style.strokeDashoffset = String(len);
+        l.dataset.len = String(len);
+      });
+    };
+    measureIng();
+    on(window, 'resize', measureIng);
+
+    // ---- progress helper
+    const prog = wrap => {
+      const total = wrap.offsetHeight - innerHeight;
+      if (total <= 0) return 0;
+      return clamp(-wrap.getBoundingClientRect().top / total, 0, 1);
+    };
+
+    // ---- section appliers
+    const applyHero = p => {
+      heroHead.style.opacity = String(clamp(1 - p * 1.5, 0, 1));
+      heroHead.style.transform = 'scale(' + (1 + p * 0.38) + ') translateY(' + (-p * 26) + 'px)';
+      heroSub.style.opacity = String(clamp(1 - p * 2.2, 0, 1));
+      heroBadge.style.opacity = String(clamp(1 - p * 2.8, 0, 1));
+      heroDish.style.transform = 'scale(' + (1 + p * 0.12) + ') translateY(' + (-p * 18) + 'px)';
+      heroGlow.style.opacity = String(glowI() * (1 - p * 0.4));
+      heroHint.style.opacity = String(clamp(1 - p * 5, 0, 1));
+      hbrs.forEach(b => {
+        const bx = +b.dataset.bx, by = +b.dataset.by;
+        b.style.transform = 'translate(' + (bx * p * 76) + 'px,' + (by * p * 60) + 'px)';
+        b.style.opacity = String(clamp(1 - (p - 0.55) / 0.4, 0, 1));
+      });
+    };
+
+    const applyIng = p => {
+      const open = p < 0.45 ? ease(p / 0.45) : p < 0.7 ? 1 : 1 - ease((p - 0.7) / 0.3);
+      ings.forEach((el, i) => {
+        const ti = clamp((open - i * 0.13) / 0.48, 0, 1);
+        const e = ease(ti);
+        const v = ingVecs[i] || { dx: 0, dy: 0 };
+        el.style.opacity = String(e);
+        const base = el.style.left === '50%' ? 'translateX(-50%) ' : '';
+        el.style.transform = base + 'translate(' + (v.dx * (1 - e)) + 'px,' + (v.dy * (1 - e)) + 'px) scale(' + (0.4 + 0.6 * e) + ')';
+      });
+      lines.forEach((l, i) => {
+        const ti = clamp((open - i * 0.13) / 0.48, 0, 1);
+        const e = ease(ti);
+        const len = +l.dataset.len || 0;
+        l.style.strokeDashoffset = String(len * (1 - e));
+        l.style.opacity = String(e * 0.85);
+      });
+      ingDish.style.transform = 'translate(-50%,-50%) scale(' + (1 - open * 0.05) + ')';
+      const infoIn = clamp((p - 0.3) / 0.12, 0, 1), infoOut = clamp((p - 0.78) / 0.12, 0, 1);
+      const info = infoIn * (1 - infoOut);
+      calWrap.style.opacity = String(info);
+      calWrap.style.transform = 'translateY(' + ((1 - info) * 22) + 'px)';
+      calNum.textContent = String(Math.round(540 * clamp((p - 0.3) / 0.22, 0, 1)));
+    };
+
+    const applyHow = p => {
+      const dist = Math.max(0, howTrack.scrollWidth - howPin.clientWidth + innerWidth * 0.16);
+      howTrack.style.transform = 'translate3d(' + (-p * dist) + 'px,0,0)';
+      howNums.forEach(n => { n.style.transform = 'translateX(' + (p * dist * 0.16) + 'px)'; });
+    };
+
+    const applyAr = p => {
+      arScene.style.opacity = String(clamp(p / 0.22, 0, 1));
+      const d = ease(clamp((p - 0.18) / 0.35, 0, 1));
+      arDish.style.opacity = String(d);
+      arDish.style.transform = 'translateX(-50%) translateY(' + ((1 - d) * -120) + 'px) scale(' + (0.5 + 0.5 * d) + ')';
+      const b = clamp((p - 0.5) / 0.15, 0, 1);
+      abrs.forEach(el => { el.style.opacity = String(b); el.style.transform = 'scale(' + (0.7 + 0.3 * b) + ')'; });
+      const c = clamp((p - 0.64) / 0.15, 0, 1);
+      arChip.style.opacity = String(c);
+      arChip.style.transform = 'translateX(-50%) translateY(' + ((1 - c) * 24) + 'px)';
+    };
+
+    const applyMan = p => {
+      const n = words.length;
+      words.forEach((w, i) => {
+        const t = clamp(p * (n + 3) - i, 0, 1);
+        w.style.opacity = String(0.12 + 0.88 * t);
+      });
+    };
+
+    // ---- mode switching (pinned vs fallback)
+    const pins = [
+      { wrap: heroWrap, pin: heroPin, h: '200vh' },
+      { wrap: ingWrap, pin: ingPin, h: '400vh' },
+      { wrap: howWrap, pin: howPin, h: '300vh' },
+      { wrap: arWrap, pin: arPin, h: '250vh' },
+      { wrap: manWrap, pin: manPin, h: '250vh' }
+    ];
+    const applyMode = () => {
+      const f = fb();
+      pins.forEach(({ wrap, pin, h }) => {
+        wrap.style.height = f ? 'auto' : h;
+        pin.style.position = f ? 'relative' : 'sticky';
+        pin.style.height = f ? 'auto' : '100vh';
+        pin.style.minHeight = f ? '100vh' : '';
+        pin.style.overflow = f ? 'visible' : 'hidden';
+      });
+      if (f) {
+        applyHero(0);
+        heroGlow.style.opacity = String(glowI());
+        // ingredients: static chips row
+        ingFloat.style.display = 'none';
+        ingLines.style.display = 'none';
+        if (!ingStatic.childElementCount) ings.forEach(el => { const c = el.cloneNode(true); c.style.cssText = 'display:flex;align-items:center;gap:8px;background:#FFFDF8;border:1px solid #EBDFC9;border-radius:999px;padding:7px 13px 7px 8px;box-shadow:0 6px 16px rgba(138,106,60,0.12)'; ingStatic.appendChild(c); });
+        ingStatic.style.display = 'flex';
+        ingGrid.style.gridTemplateColumns = '1fr';
+        ingStage.style.width = 'min(440px,86vw)';
+        ingDish.style.transform = 'translate(-50%,-50%)';
+        calWrap.style.opacity = '1'; calWrap.style.transform = 'none'; calNum.textContent = '540';
+        howTrack.style.flexDirection = 'column'; howTrack.style.width = 'auto';
+        howTrack.style.transform = 'none'; howTrack.style.padding = '0 24px 60px'; howTrack.style.alignItems = 'center';
+        howNums.forEach(n => { n.style.transform = 'none'; });
+        howPin.style.justifyContent = 'flex-start';
+        arGrid.style.gridTemplateColumns = '1fr'; arGrid.style.padding = '110px 32px 60px';
+        applyAr(1);
+        words.forEach(w => { w.style.opacity = '1'; });
+        manPin.style.minHeight = '0'; manPin.style.padding = '130px 0';
+        heroHint.style.display = 'none';
+      } else {
+        ingFloat.style.display = 'block';
+        ingLines.style.display = 'block';
+        ingStatic.style.display = 'none';
+        ingGrid.style.gridTemplateColumns = '0.85fr 1.15fr';
+        ingStage.style.width = 'min(600px,44vw)';
+        howTrack.style.flexDirection = 'row'; howTrack.style.width = 'max-content';
+        howTrack.style.padding = '0 8vw'; howTrack.style.alignItems = '';
+        howPin.style.justifyContent = 'center';
+        arGrid.style.gridTemplateColumns = '1fr auto'; arGrid.style.padding = '80px 32px 32px';
+        manPin.style.padding = '0';
+        heroHint.style.display = 'flex';
+        requestAnimationFrame(measureIng);
+      }
+    };
+    this._applyMode = applyMode;
+    applyMode();
+    on(mqM, 'change', applyMode);
+    on(mqR, 'change', applyMode);
+
+    // ---- rAF scrub loop with lerp (Lenis-feel)
+    const cur = { h: 0, i: 0, w: 0, a: 0, m: 0 };
+    const tick = () => {
+      if (this._dead) return;
+      if (!fb()) {
+        cur.h += (prog(heroWrap) - cur.h) * 0.14;
+        cur.i += (prog(ingWrap) - cur.i) * 0.14;
+        cur.w += (prog(howWrap) - cur.w) * 0.12;
+        cur.a += (prog(arWrap) - cur.a) * 0.14;
+        cur.m += (prog(manWrap) - cur.m) * 0.16;
+        applyHero(cur.h); applyIng(cur.i); applyHow(cur.w); applyAr(cur.a); applyMan(cur.m);
+      }
+      this._raf = requestAnimationFrame(tick);
+    };
+    tick();
+
+    // ---- reveal on scroll for [data-rv]
+    const rvs = qa('[data-rv]');
+    rvs.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(26px)'; el.style.transition = 'opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1)'; });
+    const rvIO = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; rvIO.unobserve(e.target); }
+    }), { threshold: 0.18 });
+    rvs.forEach(el => rvIO.observe(el));
+    this._cleanup.push(() => rvIO.disconnect());
+
+    // ---- AI chat typing sequence
+    const msgs = qa('.msg'), typing = $('ai-typing');
+    let chatRan = false;
+    const runChat = () => {
+      if (chatRan) return; chatRan = true;
+      if (fb() && mqR.matches) { msgs.forEach(m => { m.style.opacity = '1'; m.style.transform = 'none'; }); return; }
+      let i = 0;
+      const next = () => {
+        if (this._dead || i >= msgs.length) { typing.style.display = 'none'; return; }
+        typing.style.display = 'flex';
+        typing.style.alignSelf = i % 2 === 0 ? 'flex-end' : 'flex-start';
+        const t = setTimeout(() => {
+          typing.style.display = 'none';
+          msgs[i].style.opacity = '1'; msgs[i].style.transform = 'none';
+          i++;
+          const t2 = setTimeout(next, 700);
+          this._cleanup.push(() => clearTimeout(t2));
+        }, i % 2 === 0 ? 900 : 1400);
+        this._cleanup.push(() => clearTimeout(t));
+      };
+      next();
+    };
+    const chatIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { runChat(); chatIO.disconnect(); } }), { threshold: 0.45 });
+    chatIO.observe($('ai-chat'));
+    this._cleanup.push(() => chatIO.disconnect());
+
+    // ---- analytics bars + counters
+    const fmt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    const countTo = (el, target, dur) => {
+      const t0 = performance.now();
+      const step = now => {
+        if (this._dead) return;
+        const t = clamp((now - t0) / dur, 0, 1);
+        el.textContent = fmt(Math.round(target * ease(t)));
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    let dashRan = false;
+    const dashIO = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting && !dashRan) {
+        dashRan = true;
+        qa('.bar-f').forEach(b => { b.style.width = b.dataset.w + '%'; });
+        qa('.bar-v').forEach((v, i) => countTo(v, +v.dataset.v, 1300 + i * 120));
+        dashIO.disconnect();
+      }
+    }), { threshold: 0.4 });
+    dashIO.observe($('dash'));
+    this._cleanup.push(() => dashIO.disconnect());
+
+    // ---- bracket hover groups
+    qa('.brk').forEach(g => {
+      const bks = qa('.bk', g);
+      on(g, 'mouseenter', () => bks.forEach(b => {
+        b.style.opacity = '1';
+        b.style.borderColor = '#E8962E';
+        b.style.transform = 'translate(' + (+b.dataset.bx * 7) + 'px,' + (+b.dataset.by * 7) + 'px)';
+      }));
+      on(g, 'mouseleave', () => bks.forEach(b => {
+        b.style.transform = 'none';
+        b.style.borderColor = '#D9CBB2';
+        if (g.classList.contains('magnet')) b.style.opacity = '0';
+      }));
+    });
+
+    // ---- magnetic buttons
+    qa('.magnet').forEach(el => {
+      el.style.transition = (el.style.transition ? el.style.transition + ',' : '') + 'transform .25s ease';
+      on(el, 'mousemove', e => {
+        if (fb()) return;
+        const r = el.getBoundingClientRect();
+        const dx = (e.clientX - r.left - r.width / 2) / r.width;
+        const dy = (e.clientY - r.top - r.height / 2) / r.height;
+        el.style.transform = 'translate(' + (dx * 8) + 'px,' + (dy * 8) + 'px)';
+      });
+      on(el, 'mouseleave', () => { el.style.transform = 'none'; });
+    });
+  }
+}
+</script>
+</body>
+</html>
