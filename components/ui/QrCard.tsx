@@ -1,6 +1,6 @@
 import { QRCodeSVG } from "qrcode.react";
 
-const QR_URL = "https://armenu.az";
+const QR_URL = "https://armenu.az/demo";
 
 export default function QrCard({ className = "" }: { className?: string }) {
   return (
