@@ -10,9 +10,29 @@ const MESHOPT_DECODER_SRC = "https://cdn.jsdelivr.net/npm/meshoptimizer@0.22.0/m
 const MAX_AR_CHECK_ATTEMPTS = 20;
 const AR_CHECK_INTERVAL_MS = 300;
 
+// AR Quick Look needs a real Safari webview. In-app browsers (Instagram,
+// Facebook, TikTok, WeChat, Line…) run on WKWebView but block the
+// rel="ar" navigation model-viewer relies on, so it fails silently.
+const IN_APP_BROWSER_UA = /Instagram|FBAN|FBAV|TikTok|MicroMessenger|Line\//i;
+
+function isIOS() {
+  if (typeof navigator === "undefined") return false;
+  const ua = navigator.userAgent;
+  // iPadOS 13+ reports as "Macintosh" but exposes touch points, unlike a real Mac.
+  const isIPadOS = ua.includes("Macintosh") && navigator.maxTouchPoints > 1;
+  return /iPhone|iPad|iPod/.test(ua) || isIPadOS;
+}
+
 export default function ArDemoViewer() {
   const viewerRef = useRef<HTMLModelViewerElement>(null);
   const [arSupported, setArSupported] = useState<boolean | null>(null);
+  const [showSafariHint, setShowSafariHint] = useState(false);
+
+  useEffect(() => {
+    if (isIOS() && IN_APP_BROWSER_UA.test(navigator.userAgent)) {
+      setShowSafariHint(true);
+    }
+  }, []);
 
   const handleModelViewerLoaded = () => {
     // The CDN build doesn't expose a global; grab the named export from the
@@ -55,7 +75,11 @@ export default function ArDemoViewer() {
   }, []);
 
   const handleActivateAR = () => {
-    viewerRef.current?.activateAR();
+    // Must stay a direct, synchronous call inside the tap handler — Safari
+    // only honors AR Quick Look launches that happen within user activation.
+    viewerRef.current?.activateAR().catch(() => {
+      if (isIOS()) setShowSafariHint(true);
+    });
   };
 
   return (
@@ -93,9 +117,15 @@ export default function ArDemoViewer() {
           </CtaButton>
         )}
 
-        {arSupported === false && (
+        {arSupported === false && !showSafariHint && (
           <span className="inline-flex items-center gap-2 border border-saffron/50 text-clay font-heading text-[13px] font-medium px-4 py-2 rounded-full bg-porcelain/70">
             Telefonda aç — AR aktivləşsin
+          </span>
+        )}
+
+        {showSafariHint && (
+          <span className="inline-flex items-center gap-2 border border-saffron/50 text-clay font-heading text-[13px] font-medium px-4 py-2 rounded-full bg-porcelain/70">
+            Safari ilə açın
           </span>
         )}
 
