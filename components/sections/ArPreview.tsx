@@ -158,7 +158,7 @@ export default function ArPreview() {
                 className="absolute left-1/2 opacity-0 bg-[rgba(255,253,248,0.94)] border border-[#EBDFC9] rounded-full px-[18px] py-[10px] font-heading text-[13px] font-semibold whitespace-nowrap shadow-[0_10px_26px_rgba(138,106,60,0.2)]"
                 style={{ bottom: "6%" }}
               >
-                Sac içi · 24 ₼ · <span className="text-saffron">360° baxış</span>
+                Cheeseburger · 10 ₼ · <span className="text-saffron">360° baxış</span>
               </div>
             </PhoneFrame>
           </div>
