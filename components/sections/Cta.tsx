@@ -24,7 +24,7 @@ const REQUIRED_MESSAGE: Record<FieldName, string> = {
 const WHATSAPP_NUMBER = "994553186049";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=Salam!%20AR%20menyu%20demosu%20ist%C9%99yir%C9%99m`;
 
-const CONTACT_EMAIL = "abbasovasevin889@gmail.com";
+const CONTACT_EMAIL = "abbasovasevinc889@gmail.com";
 const CONTACT_PHONE = "+994 55 318 60 49";
 
 function CheckIcon() {
